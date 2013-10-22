@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Identity API Sample App</title>
+      <script type="text/javascript" src="/socket.io/socket.io.js"></script>
+  <script src="http://code.jquery.com/jquery-1.10.1.min.js"></script>
+  <style type="text/css">   
+
+/*//stye*/
+
+
+
+
+  </style>
+    <script type="text/javascript">
+
+var working = false;
+var startTime = 0;
+var timer = null;
+var socket;
+var id;
+var myName = null;
+
+// function connected () {
+//   console.log("connected with socket i: "+id);  
+// }
+
+var clients = new Array();
+
+socket = io.connect('http://ec2-54-200-30-241.us-west-2.compute.amazonaws.com:8080/');
+
+
+
+socket.on('update clients', function (everybody) {
+
+      console.log(everybody);
+      //this is where I will loop through everyone and parse out socket.id, everybody.id, everybody.currentTime
+      //document is whole page DOM
+      var div = document.createElement('div');
+      //takes this array and for every object inside sets to person for this for loop
+      //for each object in everbody we will access them by person
+      //for (var person in everybody) {
+        for (var p = 0; p < everybody.length; p++) {
+        console.log(everybody[p].Name);
+
+          var myDiv = document.createElement('div');
+          myDiv.className = "itpClass";
+
+          var time = secondsTimeSpanToHMS(everybody[p].currentTime);
+
+          myDiv.innerHTML = "<span class= 'username'>"+everybody[p].Name+"</span> <span class = 'time'>"+ time+"</span>";
+
+          div.appendChild(myDiv);
+
+      }
+
+
+      if(!div.hasChildNodes()){
+        var text = document.createTextNode("No one is workin' right now.  Slackers.");
+        document.getElementById("workers").appendChild(text);
+      }
+      else {
+        document.getElementById("workers").innerHTML = div.innerHTML;
+      }
+
+
+    // for(var i=0;i<everybody.length;i++){
+    //   var string = everybody.Name + " has been working for "+everybody.currentTime+" minutes";
+    //   var div = document.createElement('div');
+    //   div.innerText = string;
+    //   $.('#sql').appendChild(div);
+    // }
+
+});    
+
+
+function secondsTimeSpanToHMS(s) {
+    var h = Math.floor(s/3600); //Get whole hours
+    s -= h*3600;
+    var m = Math.floor(s/60); //Get remaining minutes
+    s -= m*60;
+    return h+":"+(m < 10 ? '0'+m : m)+"<span class='sec'>:"+(s < 10 ? '0'+s : s)+"</span>"; //zero padding on minutes and seconds
+}
+
+var runClock = function() {
+        var curWorkingTime = Math.round((new Date - startTime) / 1000);
+        //setCurTime(curWorkingTime);
+ 
+//loop through info
+//grab each persons object
+//parse into html object (id, time, name)(in a for loop)
+//attach html to body
+
+//this is what is 
+        socket.emit('update time', { Name: myName, currentTime: curWorkingTime });
+
+     }
+
+function setWorkingIcon(isWorking) {
+
+    if(isWorking){
+     
+      startTime = new Date();
+      timer = setInterval( function(){ runClock(); } , 1000);
+  }else{
+    
+      clearInterval( timer );
+  }
+
+}
+
+function setCurTime(time){
+ 
+ var min = (time%60);
+ //needs better formatting, math round jumps from 30 sec to 1 min
+ var formattedTime = Math.round((time / 60))+":"+(min<10 ? "0"+min : min);
+ console.log(time);
+}
+
+
+//sets user name, sets everything in motion
+
+function setWorking(){
+   working = !working;
+
+   if(myName == null) {
+    myName = document.getElementById('name').value;
+    console.log(myName);
+    document.getElementById('name').style.display="none";
+ }
+
+  // working ? document.getElementById('#working').value = 'stop working' : document.getElementById('#working').value = 'start working';
+
+   if(!working)logMeOut();
+   else{
+        setWorkingIcon(working);
+   }
+   console.log(working);
+}
+
+
+
+
+function logMeOut() {
+  console.log('log me out');
+  socket.disconnect();
+}
+  var button;
+  var user_info_div;
+  var myName = null;
+
+
+  function showButton(button) {
+    button.disabled = false;
+    button.style.display = 'inline';
+  }
+
+  function hideButton(button) {
+    button.style.display = 'none';
+  }
+
+  function disableButton(button) {
+    button.disabled = true;
+  }
+
+
+
+   function init () {
+
+      //set up the initial button states and the functions attached to them
+      button = document.querySelector('#working');
+      button.onclick = setWorking;
+
+    //console.log(userData);
+
+    
+  }
+
+window.onload=function(){ init() };
+</script>
+
+            <style type="text/css">
+    .working { background:blue; }
+    .notWorking { background:red; }
+
+
+
+     body {
+        min-width: 357px;
+        overflow-x: hidden;
+      }
+
+      img {
+        margin: 5px;
+        border: 2px solid black;
+        vertical-align: middle;
+        width: 75px;
+        height: 75px;
+      }
+      </style>
+  </head>
+  <body > 
+    <div id="user_info"></div>
+    <input type="text" id="name" width="10" value = "Please enter your name" />
+    <input type="submit" id="working" value="Start Working"/> 
+    <div id="workers"></div>
+        
+
+
+     
+
+  
+  </body>
+</html>

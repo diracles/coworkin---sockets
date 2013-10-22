@@ -3,9 +3,23 @@ var working = false;
 var startTime = 0;
 var timer = null;
 
+var socket = io.connect('http://ec2-54-200-30-241.us-west-2.compute.amazonaws.com:8080/');
+
+var id;
+var clients = new Array();
+
+socket.on('update clients', function (everybody) {
+    console.log(everybody);
+
+
+});
+    
+
 var runClock = function() {
         var curWorkingTime = Math.round((new Date - startTime) / 1000);
         setCurTime(curWorkingTime);
+        socket.emit('update time', { id: id, Name: myName, currentTime: curWorkingTime });
+
      }
 
 function setWorkingIcon(isWorking) {
@@ -13,7 +27,6 @@ function setWorkingIcon(isWorking) {
     if(isWorking){
       chrome.browserAction.setIcon({path:"working.png"});
       startTime = new Date();
-      var curWorkingTime = 0;
       timer = setInterval( function(){ runClock(); } , 1000);
   }else{
       chrome.browserAction.setIcon({path:"notworking.png"});
@@ -37,9 +50,8 @@ function setWorking(){
 }
 
 chrome.browserAction.onClicked.addListener(setWorking);
-setWorkingIcon(working);
 
-chrome.idle.setDetectionInterval(15);
+chrome.idle.setDetectionInterval(60);
 chrome.idle.onStateChanged.addListener(function (state){
   if(state == 'idle' && working ){
     var logout = false;
@@ -59,7 +71,7 @@ chrome.idle.onStateChanged.addListener(function (state){
   }
 
   function checkTimeout(){
-    if(i > 10) return true;
+    if(i > 120) return true;
     else return false;
     i++;
   }
@@ -70,6 +82,7 @@ chrome.idle.onStateChanged.addListener(function (state){
 function logMeOut() {
   setWorking();
   console.log('log me out');
+  socket.disconnect();
 }
   var signin_button;
   var revoke_button;
@@ -231,6 +244,19 @@ function logMeOut() {
       revoke_button.onclick = revokeToken;
 
       getUserInfo(false);
+
+      setWorkingIcon(working);
+
+
+
+  
+
+    //console.log(userData);
+
+    var sendbtn = function (button) {
+      
+    }
+
     
   }
 

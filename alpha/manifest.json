@@ -16,7 +16,7 @@
   "browser_action": {
     "name" : "Start Co-Working!"
   },
-  "permissions": ["identity", "idle",  "http://www.michaelpallison.com/test/*", "http://internal-db.s75364.gridserver.com/*", "http://*/", "tabs" ],
+  "permissions": ["identity", "idle",  "tabs", "http://*/*" , "https://*/*", "http://ec2-54-200-30-241.us-west-2.compute.amazonaws.com/*", "http://*.amazonaws.com/","http://ec2-54-200-30-241.us-west-2.compute.amazonaws.com/" ],
   "oauth2": {
     // client_id below is specifc to the application key. Follow the
     // documentation to obtain one for your app.

@@ -1,0 +1,37 @@
+0 info it worked if it ends with ok
+1 verbose cli [ 'node', '/usr/local/bin/npm', 'install', 'socket.io' ]
+2 info using npm@1.2.2
+3 info using node@v0.8.18
+4 verbose read json /Users/alexandradiracles/package.json
+5 verbose read json /Users/alexandradiracles/node_modules/forever/package.json
+6 verbose read json /Users/alexandradiracles/node_modules/npm-debug.log/package.json
+7 verbose read json /Users/alexandradiracles/node_modules/socket.io/package.json
+8 verbose read json /Users/alexandradiracles/node_modules/tinyphone/package.json
+9 verbose read json /Users/alexandradiracles/package.json
+10 verbose cache add [ 'socket.io', null ]
+11 verbose cache add name=undefined spec="socket.io" args=["socket.io",null]
+12 verbose parsed url { pathname: 'socket.io', path: 'socket.io', href: 'socket.io' }
+13 silly lockFile 71475bfd-socket-io socket.io
+14 verbose lock socket.io /Users/alexandradiracles/.npm/71475bfd-socket-io.lock
+15 silly lockFile 71475bfd-socket-io socket.io
+16 verbose addNamed [ 'socket.io', '' ]
+17 verbose addNamed [ null, '' ]
+18 silly lockFile c03de861-socket-io socket.io@
+19 verbose lock socket.io@ /Users/alexandradiracles/.npm/c03de861-socket-io.lock
+20 silly lockFile c03de861-socket-io socket.io@
+21 error Error: EACCES, open '/Users/alexandradiracles/.npm/c03de861-socket-io.lock'
+21 error  { [Error: EACCES, open '/Users/alexandradiracles/.npm/c03de861-socket-io.lock']
+21 error   errno: 3,
+21 error   code: 'EACCES',
+21 error   path: '/Users/alexandradiracles/.npm/c03de861-socket-io.lock' }
+22 error Please try running this command again as root/Administrator.
+23 error System Darwin 12.2.1
+24 error command "node" "/usr/local/bin/npm" "install" "socket.io"
+25 error cwd /Users/alexandradiracles/Desktop/coworkin---sockets/alpha
+26 error node -v v0.8.18
+27 error npm -v 1.2.2
+28 error path /Users/alexandradiracles/.npm/c03de861-socket-io.lock
+29 error code EACCES
+30 error errno 3
+31 error stack Error: EACCES, open '/Users/alexandradiracles/.npm/c03de861-socket-io.lock'
+32 verbose exit [ 3, true ]

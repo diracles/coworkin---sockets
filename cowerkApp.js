@@ -7,7 +7,7 @@ httpServer.listen(8080);
 
 
 function requestHandler (req, res) {
-	fs.readFile(__dirname + '/index.html',
+	fs.readFile(__dirname + '/background.html',
 
 		function(err, data) {
 
