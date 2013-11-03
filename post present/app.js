@@ -106,16 +106,17 @@ io.sockets.on('connection', function(socket){
 
 			io.sockets.emit('update clients', users);
 
-			console.log(data);
+		console.log(data);
 	});
 
 
-	socket.on('disonnect', function () {
+	socket.on('disconnect', function () {
+		console.log("I'm IN DISCONNECTTTTTTTTTTTTTTTTTTTTTT");
 		for (var i=0; i<users.length; i++) {
 			if (socket.id == users[i].id) {
 
-				users.splice(i, 1);
-
+				var removedUser = users[i].splice(i, 1);
+				console.log("I'm in disconnect " + removedUser);
 			}
 		}
 	});

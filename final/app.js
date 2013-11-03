@@ -2,7 +2,7 @@ var app = require('http').createServer(handler),
 io = require('socket.io').listen(app),
 fs = require('fs');
 
-app.listen(8080);
+app.listen(7070);
 
 
 
@@ -32,31 +32,6 @@ var users = new Array();
 io.sockets.on('connection', function(socket){
 
 //pulling out singular socket
-
-
-			// var newUser = true;
-
-			// 	for (var i=0; i<users.length; i++){
-			// 		var u = users[i];
-			// 		if (socket.id == u.id) {
-			// 			newUser = false;
-			// 			break;
-
-			// 		}
-			// 	}
-
-			// 		if(newUser) {
-
-			// 			//catching the user object from client
-			// 			//creating an empty array item which represents each socket connection
-			// 			var user = { };
-			// 			user.id = socket.id;
-			// 			user.Name = null;
-			// 			user.currentTime = 0;
-			// 			users.push(user);
-
-			// 		}
-
 
 
 					
@@ -92,17 +67,7 @@ io.sockets.on('connection', function(socket){
 
 					}
 
-			// for (var i=0; i<users.length; i++) {
-
-			// 	if (data.id == users[i].id) {
-			// 		//pulling data out to safety into index pulled from for loop
-			// 		users[i].id = data.id;
-			// 		users[i].Name = data.Name;
-			// 		users[i].currentTime = data.currentTime;
-
-			// 	}
-
-			// }
+	
 
 			io.sockets.emit('update clients', users);
 
@@ -110,11 +75,13 @@ io.sockets.on('connection', function(socket){
 	});
 
 
-	socket.on('disonnect', function () {
+	socket.on('disconnect', function (data) {
+		console.log('disonnectooooo');
 		for (var i=0; i<users.length; i++) {
 			if (socket.id == users[i].id) {
 
 				users.splice(i, 1);
+				
 
 			}
 		}

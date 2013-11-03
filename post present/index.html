@@ -20,6 +20,8 @@ var timer = null;
 var socket;
 var id;
 var myName = null;
+var startButton;
+var stopButton;
 
 // function connected () {
 //   console.log("connected with socket i: "+id);  
@@ -124,8 +126,8 @@ console.log(time);
 
 //sets user name, sets everything in motion
 
-function setWorking(item){
-  working = !working;
+function setWorking(){
+  window.working = !window.working;
 
   if(myName == null) {
     myName = document.getElementById('name').value;
@@ -136,19 +138,22 @@ function setWorking(item){
   }
    //LOOK HERE
 
-  working ? document.getElementById('#working').value = 'stop working' : document.getElementById('#working').value = 'start working';
+  window.working ? document.getElementById('working').value = 'stop working' : document.getElementById('working').value = 'start working';
 
   if(!working)logMeOut();
 
     setWorkingIcon(working);
     //document.getElementById()
     console.log(working);
+} else {
+  
 }
 
 
 
 
 function logMeOut() {
+ setWorking();
  console.log('log me out');
  socket.disconnect();
  //socket.emit('disconnect');
@@ -174,11 +179,25 @@ function logMeOut() {
 
 
 
+
+
   function init () {
 
      //set up the initial button states and the functions attached to them
-     button = document.querySelector('#working');
-     button.onclick = setWorking(item);
+     // button = document.querySelector('#working');
+     // button.onclick = setWorking;
+
+     startButton = document.querySelector('#working');
+     startButton.onclick = setWorking;
+
+      // if(!working){
+
+      // stopButton = document.querySelector('#notworking');
+      // stopButton.onclick = setWorking;
+   
+      //   }
+     
+
 
      //LOOK HERE, IS THIS WHERE I SHOULD PUT A BUTTON SWITCH?
 
@@ -242,8 +261,8 @@ window.onload=function(){ init() };
          }
 
 
-          .working { background:blue; }
-          .notWorking { background:red; }
+          .working {  color:#0c7cab; }
+          .notWorking {  color:#0c7cab; }
           
 
 
@@ -263,7 +282,8 @@ window.onload=function(){ init() };
  <body > 
    <div id="user_info"></div>
    <input type="text" id="name" width="10" value = "Please enter your name" />
-   <input type="submit" id="working" value="Start Working" class="working" onclick = "toggleState(this)" /> 
+   <input type="submit" id="working" value="Start Working" class="working" /> 
+    <input type="submit" id="notworking" value="Stop Working" class="working" /> 
    <div id="workers"></div>
 
 

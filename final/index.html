@@ -20,6 +20,8 @@ var timer = null;
 var socket;
 var id;
 var myName = null;
+var startButton;
+var stopButton;
 
 // function connected () {
 //   console.log("connected with socket i: "+id);  
@@ -27,7 +29,7 @@ var myName = null;
 
 var clients = new Array();
 
-socket = io.connect('http://ec2-54-200-30-241.us-west-2.compute.amazonaws.com:8080/');
+socket = io.connect('http://ec2-54-200-30-241.us-west-2.compute.amazonaws.com:7070/', {'sync disconnect on unload': true });
 
 
 
@@ -124,19 +126,19 @@ console.log(time);
 
 //sets user name, sets everything in motion
 
-function setWorking(item){
-  working = !working;
+function setWorking(){
+  window.working = !window.working;
 
   if(myName == null) {
     myName = document.getElementById('name').value;
     console.log(myName);
   } 
-  else {
-    document.getElementById('name').style.display="none";
-  }
+  
+  document.getElementById('name').style.display="none";
+  
    //LOOK HERE
 
-  working ? document.getElementById('#working').value = 'stop working' : document.getElementById('#working').value = 'start working';
+  window.working ? document.getElementById('working').value = 'stop working' : document.getElementById('working').value = 'start working';
 
   if(!working)logMeOut();
 
@@ -150,10 +152,12 @@ function setWorking(item){
 
 function logMeOut() {
  console.log('log me out');
- socket.disconnect();
- //socket.emit('disconnect');
+ //socket.disconnect();
+ //socket.emit('removeMe', {} );
 
 }
+
+
  var button;
  var user_info_div;
  var myName = null;
@@ -174,11 +178,21 @@ function logMeOut() {
 
 
 
+
+
   function init () {
 
      //set up the initial button states and the functions attached to them
-     button = document.querySelector('#working');
-     button.onclick = setWorking(item);
+     // button = document.querySelector('#working');
+     // button.onclick = setWorking;
+
+     startButton = document.querySelector('#working');
+     startButton.onclick = setWorking;
+
+     
+     stopButton = document.querySelector('#notworking');
+     stopButton.onclick = logMeOut;
+
 
      //LOOK HERE, IS THIS WHERE I SHOULD PUT A BUTTON SWITCH?
 
@@ -206,7 +220,7 @@ window.onload=function(){ init() };
            padding:15px;
            background-color: #f0f0f0;
            font-family: helvetica;
-           font-size: 12px;         
+           font-size: 26px;         
            color:#666;
            opacity: .95;
            text-align: left;
@@ -227,23 +241,23 @@ window.onload=function(){ init() };
 
          .username{
            font-weight: bold;
-           font-size: 24px;
+           font-size: 46px;
            color:#0c7cab;
          }
 
          .clock{
            font-style: italic;
-           font-size: 26px;
+           font-size: 46px;
          }
 
          .sec{
-           font-size:10px;
+           font-size:26px;
            color:#cecece;
          }
 
 
-          .working { background:blue; }
-          .notWorking { background:red; }
+          .workingButton {  color:#0c7cab; }
+          .notWorking {  color:#0c7cab; }
           
 
 
@@ -263,8 +277,9 @@ window.onload=function(){ init() };
  <body > 
    <div id="user_info"></div>
    <input type="text" id="name" width="10" value = "Please enter your name" />
-   <input type="submit" id="working" value="Start Working" class="working" onclick = "toggleState(this)" /> 
-   <div id="workers"></div>
+   <input type="submit" id="working" value="Start Working" class="workingButton" /> 
+<!--     <input type="submit" id="notworking" value="Stop Working" class="working" /> 
+ -->   <div id="workers"></div>
 
 
 
@@ -273,3 +288,9 @@ window.onload=function(){ init() };
 
  </body>
 </html>
+
+
+
+
+
+
